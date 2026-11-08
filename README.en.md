@@ -43,7 +43,7 @@ Two AI models talk about a topic. You watch, and whenever you want you **step in
 | Where it runs | GitHub Pages (static site) | `npm run dev` |
 | Who calls the provider | Your browser, directly | The app's `/api/chat` proxy |
 | Key | The one you type (memory only) | The one you type, or the one in `.env.local` |
-| Providers | Anthropic, OpenRouter, Z.AI, SiliconFlow | Plus Ollama |
+| Providers | Anthropic, OpenRouter, Z.AI, SiliconFlow, Groq, Google Gemini (these two: web only) | Plus Ollama |
 | Analytics | GoatCounter (no cookies) | None |
 
 NVIDIA and Ollama don't work from a browser (CORS block or local service): they are left for the installable version, which is on the roadmap.
@@ -107,7 +107,7 @@ tests/                node:test with mocked providers
 - [x] **v1 web**: read, try with your key, step in, export. Cookie-free analytics.
 - [ ] Replace the two mockups with real dialogues (one already exists).
 - [ ] **Installable version** (Tauri): adds Ollama and NVIDIA, no CORS limits.
-- [ ] More providers (Groq, DeepSeek, Mistral).
+- [ ] More providers (DeepSeek, Mistral; Groq and Gemini are already in).
 - [ ] **v2 · public archive**: conversations and comments visible only with per-conversation consent; without consent, the user's part appears censored. Needs a backend, moderation and GDPR compliance.
 - [ ] Proposal: publish dialogues on Moltbook. There is no connection today.
 

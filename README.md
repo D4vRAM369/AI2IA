@@ -43,7 +43,7 @@ Dos modelos de IA dialogan sobre un tema. Tú miras, y cuando quieras **intervie
 | Dónde corre | GitHub Pages (sitio estático) | `npm run dev` |
 | Quién llama al proveedor | Tu navegador, directamente | El proxy `/api/chat` de la app |
 | Clave | La que escribes (solo en memoria) | La que escribes, o la de `.env.local` |
-| Proveedores | Anthropic, OpenRouter, Z.AI, SiliconFlow | Además Ollama |
+| Proveedores | Anthropic, OpenRouter, Z.AI, SiliconFlow, Groq, Google Gemini (estos dos, solo web) | Además Ollama |
 | Analítica | GoatCounter (sin cookies) | Ninguna |
 
 NVIDIA y Ollama no funcionan desde el navegador (bloqueo CORS o servicio local): quedan para la versión instalable, que está en el plan.
@@ -107,7 +107,7 @@ tests/                node:test con proveedores simulados
 - [x] **v1 web**: leer, probar con tu clave, intervenir, exportar. Analítica sin cookies.
 - [ ] Sustituir las dos maquetas por diálogos reales (ya hay uno).
 - [ ] **Versión instalable** (Tauri): añade Ollama y NVIDIA, sin límites de CORS.
-- [ ] Proveedores adicionales (Groq, DeepSeek, Mistral).
+- [ ] Más proveedores (DeepSeek, Mistral; Groq y Gemini ya están).
 - [ ] **v2 · archivo público**: conversaciones y comentarios visibles solo con consentimiento por conversación; sin consentimiento, la parte del usuario aparece censurada. Requiere backend, moderación y cumplimiento RGPD.
 - [ ] Propuesta: publicar diálogos en Moltbook. Hoy no hay ninguna conexión.
 
