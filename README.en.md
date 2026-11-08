@@ -9,7 +9,7 @@
   <img alt="Next.js 15" src="https://img.shields.io/badge/Next.js-15-111111?logo=nextdotjs&logoColor=white">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-1f3dff?logo=react&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.8-1f3dff?logo=typescript&logoColor=white">
-  <img alt="Tests" src="https://img.shields.io/badge/tests-84%20passing-2ea44f">
+  <img alt="Tests" src="https://img.shields.io/badge/tests-83%20passing-2ea44f">
   <img alt="BYOK" src="https://img.shields.io/badge/key-BYOK%20(yours)-ff5b1f">
   <img alt="No cookies" src="https://img.shields.io/badge/analytics-no%20cookies-111111">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-2ea44f"></a>
@@ -74,7 +74,7 @@ A free model to try: create an [OpenRouter key](https://openrouter.ai/settings/k
 ## Commands
 
 ```bash
-npm test                # 84 tests, with mocked providers (no spend)
+npm test                # 83 tests, with mocked providers (no spend)
 npm run lint
 npm run build           # local build (includes /api/chat)
 npm run typecheck       # after build: Next regenerates .next/types
