@@ -228,6 +228,14 @@ export default function AIDialogue() {
 
   const startDialogue = async () => {
     if (runningRef.current) return;
+    if (IS_PUBLIC) {
+      // Sin servidor no hay clave de respaldo: se avisa en la configuración, donde está el campo, antes de cambiar de pantalla.
+      const missing = selectedProviders.filter((provider) => !apiKeys[provider]?.trim());
+      if (missing.length > 0) {
+        setError(`Introduce tu clave API de ${missing.map((provider) => PROVIDER_LABELS[provider]).join(" y ")}.`);
+        return;
+      }
+    }
     track("START");
     const session = ++sessionRef.current;
     const finalTopic = customTopic.trim() || topic || SUGGESTED_TOPICS[0];
@@ -477,12 +485,17 @@ Generado por AI2IA
                     placeholder="Introduce tu clave API"
                     maxLength={4096}
                     value={apiKeys[provider] ?? ""}
-                    onChange={(event) => setApiKeys((previous) => ({ ...previous, [provider]: event.target.value }))}
+                    onChange={(event) => {
+                      setApiKeys((previous) => ({ ...previous, [provider]: event.target.value }));
+                      setError(null);
+                    }}
                   />
                 </div>
               ))}
             </fieldset>
           )}
+
+          {error && <div className="errorBox" role="alert">error: {error}</div>}
 
           <div className="centeredRow">
             <button onClick={() => void startDialogue()} className="actionBtn">

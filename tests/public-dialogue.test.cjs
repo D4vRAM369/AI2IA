@@ -102,6 +102,23 @@ test("modo público: sin clave no hay petición y se muestra el error", async ()
   assert.match(app.errorText(), /Introduce tu clave API de/);
 });
 
+test("modo público: sin clave se queda en la configuración y no registra START", async () => {
+  const app = mountDialogue({ publicMode: true });
+  await app.start();
+  assert.ok(app.render().find((node) => node.type === "button" && node.props.children === "iniciar dialogo"),
+    "sigue la pantalla de configuración, donde está el campo de la clave");
+  assert.equal(app.tracked.some((call) => call[0] === "START"), false);
+  assert.match(app.errorText(), /anthropic/i);
+});
+
+test("modo público: escribir la clave borra el error anterior", async () => {
+  const app = mountDialogue({ publicMode: true });
+  await app.start();
+  assert.notEqual(app.errorText(), "");
+  app.setKey("anthropic", "sk-ant-prueba");
+  assert.equal(app.errorText(), "");
+});
+
 test("modo público: con clave se llama directo al proveedor, nunca a /api/chat", async () => {
   const app = mountDialogue({ publicMode: true });
   app.render();
