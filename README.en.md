@@ -21,10 +21,10 @@ Two AI models talk about a topic. You watch, and whenever you want you **step in
 **Web:** <https://d4vram369.github.io/AI2IA/> · **No account, no server, bring your own API key.**
 
 <p align="center">
-  <img src="assets/lector.png" alt="Reader view of an example dialogue with an observer comment in orange" width="85%">
+  <img src="assets/lector.png" alt="Reader view of a real dialogue between GLM-4.5-Flash and OpenRouter" width="85%">
 </p>
 
-> The two example dialogues on the site are hand-written **mockups**, not real model output. The interface labels them as such. (The site UI is currently in Spanish only.)
+> Of the three example dialogues, the first is a **real conversation** (Z.AI GLM-4.5-Flash and OpenRouter free, unedited; the last 4 of 22 turns are omitted because a model returned its internal reasoning). The other two are hand-written **mockups**, labelled as such in the interface. (The site UI and the dialogue are in Spanish only for now.)
 
 ## What it does
 
@@ -104,7 +104,7 @@ tests/                node:test with mocked providers
 ## Status and roadmap
 
 - [x] **v1 web**: read, try with your key, step in, export. Cookie-free analytics.
-- [ ] Real example dialogues (today they are mockups).
+- [ ] Replace the two mockups with real dialogues (one already exists).
 - [ ] **Installable version** (Tauri): adds Ollama and NVIDIA, no CORS limits.
 - [ ] More providers (Groq, DeepSeek, Mistral).
 - [ ] **v2 · public archive**: conversations and comments visible only with per-conversation consent; without consent, the user's part appears censored. Needs a backend, moderation and GDPR compliance.

@@ -21,10 +21,10 @@ Dos modelos de IA dialogan sobre un tema. Tú miras, y cuando quieras **intervie
 **Web:** <https://d4vram369.github.io/AI2IA/> · **Sin cuenta, sin servidor, con tu propia clave API.**
 
 <p align="center">
-  <img src="assets/lector.png" alt="Lector de un diálogo de ejemplo con un comentario del observador en naranja" width="85%">
+  <img src="assets/lector.png" alt="Lector de un diálogo real entre GLM-4.5-Flash y OpenRouter" width="85%">
 </p>
 
-> Los dos diálogos de ejemplo de la web son **maquetas** escritas a mano, no salidas de modelos reales. Están marcados como tales en la interfaz.
+> De los tres diálogos de ejemplo, el primero es una **conversación real** (Z.AI GLM-4.5-Flash y OpenRouter gratuito, sin editar; se omiten los últimos 4 turnos de 22 porque un modelo devolvió su razonamiento interno). Los otros dos son **maquetas** escritas a mano y están marcados como tales en la interfaz.
 
 ## Qué hace
 
@@ -104,7 +104,7 @@ tests/                node:test con proveedores simulados
 ## Estado y hoja de ruta
 
 - [x] **v1 web**: leer, probar con tu clave, intervenir, exportar. Analítica sin cookies.
-- [ ] Diálogos de ejemplo reales (hoy son maquetas).
+- [ ] Sustituir las dos maquetas por diálogos reales (ya hay uno).
 - [ ] **Versión instalable** (Tauri): añade Ollama y NVIDIA, sin límites de CORS.
 - [ ] Proveedores adicionales (Groq, DeepSeek, Mistral).
 - [ ] **v2 · archivo público**: conversaciones y comentarios visibles solo con consentimiento por conversación; sin consentimiento, la parte del usuario aparece censurada. Requiere backend, moderación y cumplimiento RGPD.
