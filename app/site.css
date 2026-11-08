@@ -1,0 +1,267 @@
+/* Páginas del sitio (portada, archivo, lector). Los tokens viven en globals.css. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.siteNav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border-bottom: 4px solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.siteNav a { color: inherit; text-decoration: none; }
+
+.navBrand {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 1.1rem;
+  background: var(--blue);
+  color: var(--paper) !important;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.navLinks {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLinks a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border-right: 4px solid var(--ink);
+}
+
+.navLinks a:hover { background: var(--ink); color: var(--paper); }
+
+.navKey {
+  margin-left: auto;
+  padding: 0.75rem 1.1rem;
+  background: var(--orange);
+  color: var(--ink);
+}
+
+.page {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.pageTitle,
+.readerHead h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 7vw, 3.6rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  margin: 1rem 0 0;
+  font-size: clamp(2.2rem, 8.5vw, 4.4rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.mark { background: var(--blue); color: var(--paper); padding: 0 0.12em; }
+.lower { text-transform: none; }
+.accent { color: var(--orange); }
+
+.lede {
+  max-width: 34rem;
+  margin: 1.2rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+}
+
+.btnPrimary,
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0.7rem 1.2rem;
+  border: 4px solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.btnPrimary { background: var(--ink); color: var(--paper); box-shadow: 5px 5px 0 var(--orange); }
+.btnSecondary { background: var(--paper); color: var(--ink); box-shadow: 5px 5px 0 var(--blue); }
+.btnPrimary:hover,
+.btnSecondary:hover { transform: translate(-2px, -2px); }
+
+.note {
+  margin: 1.2rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.block { margin-top: 2.5rem; }
+
+.blockTitle {
+  margin: 0 0 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.exampleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  border: 4px solid var(--ink);
+}
+
+.exampleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 220px;
+  padding: 1rem;
+  border-right: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  margin: 0 -4px -4px 0;
+}
+
+.exampleCard h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.cardKicker {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.cardTopic {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.badge {
+  background: var(--orange);
+  padding: 0.1rem 0.4rem;
+}
+
+.badgeSoon { background: var(--ink); color: var(--paper); }
+
+.vs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: auto 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.vsA,
+.vsB { border: 2px solid var(--ink); padding: 0.1rem 0.4rem; }
+.vsA { background: var(--blue); border-color: var(--blue); color: var(--paper); }
+
+.cardGo {
+  display: block;
+  padding: 0.6rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.soon { border-style: dashed; background: var(--panel); }
+
+.molt {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 2.5rem;
+  padding: 0.9rem 1rem;
+  border: 4px dashed var(--ink);
+}
+
+.moltTag {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.4rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.molt strong { font-size: 1.05rem; font-weight: 900; }
+.molt p { margin: 0.2rem 0 0; font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+
+.readerHead { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 4px solid var(--ink); }
+
+.eyebrowMono {
+  margin: 0 0 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.provisionalNote { margin: 0.8rem 0 0; font-family: var(--font-mono); font-size: 0.78rem; }
+
+@media (max-width: 700px) {
+  .navKey { width: 100%; margin-left: 0; }
+  .molt { grid-template-columns: 1fr; }
+  .cta { flex-direction: column; }
+  .btnPrimary,
+  .btnSecondary { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btnPrimary:hover,
+  .btnSecondary:hover { transform: none; }
+}
