@@ -12,6 +12,7 @@ function mountDialogue({ publicMode = false } = {}) {
   const hooks = [];
   const fetches = [];
   const tracked = [];
+  const downloads = [];
   const effects = [];
   let mounted = false;
   let cursor = 0;
@@ -43,6 +44,13 @@ function mountDialogue({ publicMode = false } = {}) {
       window: { matchMedia: () => ({ matches: false }) },
       AbortSignal: { any: AbortSignal.any, timeout: () => new AbortController().signal },
       setTimeout: () => 0,
+      // Exportación: un Blob y un enlace simulados para comprobar que se descarga el Markdown de verdad.
+      Blob: class { constructor(parts, options) { downloads.push({ content: parts.join(""), type: options.type, clicked: false }); } },
+      URL: { createObjectURL: () => "blob:prueba", revokeObjectURL() {} },
+      document: {
+        createElement: () => ({ style: {}, click() { downloads.at(-1).clicked = true; } }),
+        body: { appendChild() {}, removeChild() {} },
+      },
       require: (name) => name === "react" ? react
         : name === "@/lib/app-mode" ? { IS_PUBLIC: publicMode }
         : name === "@/lib/analytics" ? { track: (...args) => tracked.push(args) }
@@ -77,6 +85,7 @@ function mountDialogue({ publicMode = false } = {}) {
   return {
     fetches,
     tracked,
+    downloads,
     render,
     button,
     errorText: () => {
@@ -154,5 +163,11 @@ test("START, OBS y EXPORT se registran una vez cada uno", async () => {
   app.send("Hablemos de astronomia");
   app.button("guardar log").props.onClick();
   assert.deepEqual(app.tracked.map((call) => call[0]), ["START", "OBS", "EXPORT"]);
+  // El evento no basta: la exportación debe producir de verdad un Markdown con el comentario.
+  assert.equal(app.downloads.length, 1);
+  assert.equal(app.downloads[0].clicked, true);
+  assert.match(app.downloads[0].type, /text\/markdown/);
+  assert.match(app.downloads[0].content, /Hablemos de astronomia/);
+  assert.match(app.downloads[0].content, /Comentarios del observador:\*\* 1/);
   for (const call of app.tracked) assert.equal(call.length, 1, "no se envía ningún dato extra");
 });
