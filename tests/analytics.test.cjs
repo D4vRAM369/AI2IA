@@ -48,3 +48,27 @@ test("sin GoatCounter (adblock o sin configurar) track no lanza", () => {
 test("si goatcounter.count lanza, track no lanza", () => {
   assert.doesNotThrow(() => withCounter(() => { throw new Error("bloqueado"); })("EXPORT"));
 });
+
+test("si GoatCounter aún no ha cargado, reintenta y entrega el evento cuando esté listo", () => {
+  const timers = [];
+  const calls = [];
+  const win = {};
+  const { track } = load("lib/analytics.ts", { window: win, setTimeout: (callback) => timers.push(callback) });
+  track("VIEW");
+  assert.equal(calls.length, 0);
+  assert.equal(timers.length, 1, "queda un reintento programado");
+  win.goatcounter = { count: (arg) => calls.push(arg) };
+  timers.shift()();
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].path, "evt/VIEW");
+  assert.equal(timers.length, 0, "no sigue reintentando una vez entregado");
+});
+
+test("si GoatCounter nunca carga (adblock), deja de reintentar tras 10 intentos", () => {
+  const timers = [];
+  const { track } = load("lib/analytics.ts", { window: {}, setTimeout: (callback) => timers.push(callback) });
+  track("START");
+  let runs = 0;
+  while (timers.length && runs < 50) { timers.shift()(); runs += 1; }
+  assert.equal(runs, 10);
+});

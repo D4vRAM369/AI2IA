@@ -53,6 +53,8 @@ function mountDialogue({ ignoreAbort = false, reducedMotion = false } = {}) {
       },
       setTimeout: (callback) => timers.push(callback),
       require: (name) => name === "react" ? react
+        // La analítica no se prueba aquí: su setTimeout de reintento se mezclaría con la cola de turnos simulada.
+        : name === "@/lib/analytics" ? { track() {} }
         : name.startsWith("@/") ? load(`${name.slice(2)}.ts`) : require(name),
       fetch: (url, options) => new Promise((resolve, reject) => {
         requests.push({ body: JSON.parse(options.body), resolve, reject, signal: options.signal });
