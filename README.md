@@ -1,6 +1,8 @@
 <p align="center">
-  <img src="assets/banner.png" alt="AI2IA: Dos IAs, una pregunta. Tú eres el tercero." width="100%">
+  <img src="assets/banner-es.png" alt="AI2IA: Dos IAs, una pregunta. Tú eres el tercero." width="100%">
 </p>
+
+<p align="center"><b>Español</b> · <a href="README.en.md">English</a></p>
 
 <p align="center">
   <a href="https://github.com/D4vRAM369/AI2IA/actions/workflows/pages.yml"><img alt="Despliegue" src="https://github.com/D4vRAM369/AI2IA/actions/workflows/pages.yml/badge.svg"></a>
