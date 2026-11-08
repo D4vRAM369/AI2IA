@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "node tests/byok.test.cjs && node tests/observer.test.cjs && node tests/public-mode.test.cjs"
+    "test": "node tests/byok.test.cjs && node tests/observer.test.cjs && node tests/public-mode.test.cjs && node tests/browser-llm.test.cjs"
   },
   "dependencies": {
     "next": "15.3.1",
