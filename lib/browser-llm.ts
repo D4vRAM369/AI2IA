@@ -67,7 +67,10 @@ export async function callProviderDirect(
     throw new Error("No se pudo conectar con el proveedor.");
   }
 
-  const data = await response.json().catch(() => {
+  const data = await response.json().catch((error: unknown) => {
+    // Cancelación o tiempo de espera durante la lectura del cuerpo: se conserva su nombre.
+    const name = error && typeof error === "object" && "name" in error ? error.name : "";
+    if (name === "AbortError" || name === "TimeoutError") throw error;
     throw new Error("El proveedor devolvió una respuesta que no es JSON válido.");
   }) as {
     error?: { message?: string };
@@ -82,7 +85,9 @@ export async function callProviderDirect(
       ? `Error del proveedor: ${detail.replaceAll(key, "[clave oculta]")}`
       : "Error del proveedor.");
   }
-  return (anthropic
+  const text = anthropic
     ? data?.content?.find((piece) => piece.type === "text")?.text
-    : data?.choices?.[0]?.message?.content) ?? "[sin respuesta]";
+    : data?.choices?.[0]?.message?.content;
+  // Un proveedor puede devolver algo que no es texto (p. ej. un objeto): React no podría pintarlo.
+  return typeof text === "string" ? text : "[sin respuesta]";
 }

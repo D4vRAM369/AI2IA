@@ -145,3 +145,14 @@ test("una respuesta no JSON muestra un error en español sin revelar la clave", 
     return true;
   });
 });
+
+test("un contenido que no es texto no se devuelve como respuesta", async () => {
+  const llm = setup(() => Response.json({ choices: [{ message: { content: { x: 1 } } }] }));
+  assert.equal(await llm.call("openrouter"), "[sin respuesta]");
+});
+
+test("cancelar mientras se lee el cuerpo conserva AbortError", async () => {
+  const abort = Object.assign(new Error("cancelado"), { name: "AbortError" });
+  const llm = setup(() => ({ ok: true, json: async () => { throw abort; } }));
+  await assert.rejects(llm.call("openrouter"), (error) => error.name === "AbortError");
+});
