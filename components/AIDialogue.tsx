@@ -2,8 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 
+import { track } from "@/lib/analytics";
+import { IS_PUBLIC } from "@/lib/app-mode";
+import { callProviderDirect } from "@/lib/browser-llm";
 import { buildSystemA, buildSystemB, SUGGESTED_TOPICS } from "@/lib/dialogue-config";
 import { getModelByKey, MODEL_REGISTRY, type ModelProvider } from "@/lib/model-registry";
+import { modelsForMode } from "@/lib/provider-support";
+
+// En local es el registro completo; en la web pública, solo proveedores con CORS y sin Ollama.
+const AVAILABLE_MODELS = modelsForMode(MODEL_REGISTRY, IS_PUBLIC);
 
 const PROVIDER_LABELS: Record<ModelProvider, string> = {
   anthropic: "Anthropic",
@@ -32,6 +39,13 @@ async function callModel(
   apiKey?: string,
   signal?: AbortSignal,
 ): Promise<string> {
+  if (IS_PUBLIC) {
+    // Web estática: no hay servidor. El navegador llama al proveedor con la clave de la persona.
+    const model = getModelByKey(modelKey);
+    if (!model) throw new Error("Modelo no soportado.");
+    return callProviderDirect(model, systemPrompt, messages, 1000, apiKey ?? "", signal ?? new AbortController().signal);
+  }
+
   const response = await fetch("/api/chat", {
     method: "POST",
     headers: {
@@ -55,8 +69,8 @@ export default function AIDialogue() {
   const [topic, setTopic] = useState<string>("");
   const [customTopic, setCustomTopic] = useState<string>("");
   const [mode, setMode] = useState<"finite" | "infinite">("finite");
-  const [selectedModelA, setSelectedModelA] = useState<string>(MODEL_REGISTRY[0].key);
-  const [selectedModelB, setSelectedModelB] = useState<string>(MODEL_REGISTRY[1]?.key ?? MODEL_REGISTRY[0].key);
+  const [selectedModelA, setSelectedModelA] = useState<string>(AVAILABLE_MODELS[0].key);
+  const [selectedModelB, setSelectedModelB] = useState<string>(AVAILABLE_MODELS[1]?.key ?? AVAILABLE_MODELS[0].key);
   const [messages, setMessages] = useState<UIMessage[]>([]);
   const [running, setRunning] = useState<boolean>(false);
   const [paused, setPaused] = useState<boolean>(false);
@@ -214,6 +228,7 @@ export default function AIDialogue() {
 
   const startDialogue = async () => {
     if (runningRef.current) return;
+    track("START");
     const session = ++sessionRef.current;
     const finalTopic = customTopic.trim() || topic || SUGGESTED_TOPICS[0];
 
@@ -260,6 +275,7 @@ export default function AIDialogue() {
     if (!val || !runningRef.current) {
       return;
     }
+    track("OBS");
     pendingObserverRef.current.A.push(val);
     pendingObserverRef.current.B.push(val);
     addMessage("OBS", val);
@@ -274,6 +290,7 @@ export default function AIDialogue() {
   };
 
   const saveLog = () => {
+    track("EXPORT");
     try {
       const now = new Date();
       const timestamp = now.toISOString().replace(/[:.]/g, "-").slice(0, 19);
@@ -394,7 +411,7 @@ Generado por AI2IA
 
           <SectionLabel>modelo ia1 (a)</SectionLabel>
           <div className="modelGrid">
-            {MODEL_REGISTRY.map((modelItem) => {
+            {AVAILABLE_MODELS.map((modelItem) => {
               const isActive = selectedModelA === modelItem.key;
               return (
                 <button
@@ -414,7 +431,7 @@ Generado por AI2IA
 
           <SectionLabel>modelo ia2 (b)</SectionLabel>
           <div className="modelGrid">
-            {MODEL_REGISTRY.map((modelItem) => {
+            {AVAILABLE_MODELS.map((modelItem) => {
               const isActive = selectedModelB === modelItem.key;
               return (
                 <button
@@ -436,13 +453,16 @@ Generado por AI2IA
             <fieldset className="credentials">
               <legend>tus claves API (BYOK)</legend>
               <p id="api-key-help" className="credentialHelp">
-                Se mantienen solo en memoria hasta recargar o cerrar esta pagina. Se envian al servidor para consultar el proveedor.
-                Si dejas un campo vacio, se usa la clave configurada en el servidor.
+                {IS_PUBLIC
+                  ? "Tu clave solo vive en la memoria de esta pagina hasta recargarla o cerrarla. Se envia unicamente al proveedor que elijas, directamente desde tu navegador."
+                  : "Se mantienen solo en memoria hasta recargar o cerrar esta pagina. Se envian al servidor para consultar el proveedor. Si dejas un campo vacio, se usa la clave configurada en el servidor."}
               </p>
               <p className="credentialHelp">
                 Para usar modelos gratuitos, selecciona OpenRouter gratuito en A y B y{" "}
                 <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noreferrer">crea tu clave de OpenRouter</a>.
-                Se aplican limites de uso. Ollama local no necesita clave.
+                {IS_PUBLIC
+                  ? " Se aplican limites de uso. NVIDIA y Ollama solo funcionan en la version instalable."
+                  : " Se aplican limites de uso. Ollama local no necesita clave."}
               </p>
               {selectedProviders.map((provider) => (
                 <div key={provider}>
@@ -518,6 +538,7 @@ Generado por AI2IA
               aria-label="Intervenir como observador"
               placeholder="Intervenir como observador... (Enter)"
               disabled={!running}
+              maxLength={500}
               value={observerInput}
               onChange={(event) => setObserverInput(event.target.value)}
               onKeyDown={(event) => event.key === "Enter" && !event.nativeEvent.isComposing && submitObserver()}

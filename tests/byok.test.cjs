@@ -16,7 +16,8 @@ function load(relativePath, overrides = {}, append = "") {
     module,
     exports: module.exports,
     require: (name) => name === "@/lib/model-registry" ? registry
-      : name === "@/lib/dialogue-config" ? dialogueConfig : require(name),
+      : name === "@/lib/dialogue-config" ? dialogueConfig
+      : name.startsWith("@/") ? load(`${name.slice(2)}.ts`) : require(name),
     Error, AbortSignal,
     ...overrides,
   }, { filename });
