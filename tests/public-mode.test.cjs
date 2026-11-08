@@ -23,11 +23,14 @@ test("modo público excluye Ollama y solo deja proveedores con CORS comprobado",
   assert.ok(models.length > 0);
   assert.equal(models.some((model) => model.provider === "ollama"), false);
   for (const model of models) assert.ok(PUBLIC_PROVIDERS.includes(model.provider), model.provider);
-  assert.deepEqual([...PUBLIC_PROVIDERS].sort(), ["anthropic", "openrouter", "siliconflow", "zai"]);
+  assert.deepEqual([...PUBLIC_PROVIDERS].sort(), ["anthropic", "gemini", "groq", "openrouter", "siliconflow", "zai"]);
 });
 
-test("modo local devuelve el registro completo", () => {
-  assert.equal(modelsForMode(MODEL_REGISTRY, false).length, MODEL_REGISTRY.length);
+test("modo local oculta los proveedores solo-navegador (la ruta local no los conoce)", () => {
+  const local = modelsForMode(MODEL_REGISTRY, false);
+  assert.equal(local.some((m) => m.provider === "groq" || m.provider === "gemini"), false);
+  assert.ok(local.some((m) => m.provider === "ollama"));
+  assert.equal(local.length, MODEL_REGISTRY.filter((m) => m.provider !== "groq" && m.provider !== "gemini").length);
 });
 
 test("IS_PUBLIC es false cuando process no existe", () => {

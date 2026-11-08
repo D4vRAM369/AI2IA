@@ -223,6 +223,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: "Modelo no soportado." }, { status: 400 });
     }
 
+    if (model.provider === "groq" || model.provider === "gemini") {
+      return NextResponse.json({ error: "Este proveedor solo está disponible en la versión web pública." }, { status: 400 });
+    }
+
     if (model.provider !== "ollama") {
       const serverKeys = {
         anthropic: process.env.ANTHROPIC_API_KEY,

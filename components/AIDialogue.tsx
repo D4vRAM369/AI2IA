@@ -17,6 +17,8 @@ const PROVIDER_LABELS: Record<ModelProvider, string> = {
   openrouter: "OpenRouter",
   zai: "Z.AI",
   siliconflow: "SiliconFlow",
+  groq: "Groq",
+  gemini: "Google Gemini",
   ollama: "Ollama",
 };
 

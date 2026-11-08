@@ -1,4 +1,4 @@
-export type ModelProvider = "anthropic" | "openrouter" | "ollama" | "zai" | "siliconflow";
+export type ModelProvider = "anthropic" | "openrouter" | "ollama" | "zai" | "siliconflow" | "groq" | "gemini";
 
 export type DialogueMessage = {
   role: "user" | "assistant";
@@ -40,14 +40,6 @@ export const MODEL_REGISTRY: ModelOption[] = [
     apiClass: "free",
   },
   {
-    key: "gemma-3-27b-it-free",
-    label: "Gemma 3 27B IT (OpenRouter free)",
-    note: "Gratis segun disponibilidad",
-    provider: "openrouter",
-    model: "google/gemma-3-27b-it:free",
-    apiClass: "free",
-  },
-  {
     key: "zai-glm-4-7-flash-free",
     label: "Z.AI GLM-4.7-Flash (free)",
     note: "Proveedor chino (gratis)",
@@ -80,11 +72,51 @@ export const MODEL_REGISTRY: ModelOption[] = [
     apiClass: "free",
   },
   {
-    key: "llama-3-3-8b-free",
-    label: "Llama 3.3 8B (OpenRouter free)",
+    key: "gemma-4-31b-it-free",
+    label: "Gemma 4 31B IT (OpenRouter free)",
     note: "Gratis segun disponibilidad",
     provider: "openrouter",
-    model: "meta-llama/llama-3.3-8b-instruct:free",
+    model: "google/gemma-4-31b-it:free",
+    apiClass: "free",
+  },
+  {
+    key: "gemma-4-26b-a4b-it-free",
+    label: "Gemma 4 26B A4B IT (OpenRouter free)",
+    note: "Gratis segun disponibilidad",
+    provider: "openrouter",
+    model: "google/gemma-4-26b-a4b-it:free",
+    apiClass: "free",
+  },
+  {
+    key: "gemini-3-1-flash-lite-free",
+    label: "Gemini 3.1 Flash-Lite (free)",
+    note: "Google AI Studio (gratis con limites)",
+    provider: "gemini",
+    model: "gemini-3.1-flash-lite",
+    apiClass: "free",
+  },
+  {
+    key: "gemini-2-5-flash-free",
+    label: "Gemini 2.5 Flash (free)",
+    note: "Google AI Studio (gratis con limites)",
+    provider: "gemini",
+    model: "gemini-2.5-flash",
+    apiClass: "free",
+  },
+  {
+    key: "groq-gpt-oss-20b-free",
+    label: "GPT-OSS 20B (Groq free)",
+    note: "Groq (gratis, 8K tokens/min)",
+    provider: "groq",
+    model: "openai/gpt-oss-20b",
+    apiClass: "free",
+  },
+  {
+    key: "groq-gpt-oss-120b-free",
+    label: "GPT-OSS 120B (Groq free)",
+    note: "Groq (gratis, 8K tokens/min)",
+    provider: "groq",
+    model: "openai/gpt-oss-120b",
     apiClass: "free",
   },
   {

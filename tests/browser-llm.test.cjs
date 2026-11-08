@@ -60,11 +60,13 @@ test("anthropic envía la cabecera anthropic-dangerous-direct-browser-access y x
   });
 });
 
-test("openrouter, zai y siliconflow usan Bearer y sus URL", async () => {
+test("openrouter, zai, siliconflow, groq y gemini usan Bearer y sus URL", async () => {
   const urls = {
     openrouter: "https://openrouter.ai/api/v1/chat/completions",
     zai: "https://api.z.ai/api/paas/v4/chat/completions",
     siliconflow: "https://api.siliconflow.com/v1/chat/completions",
+    groq: "https://api.groq.com/openai/v1/chat/completions",
+    gemini: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
   };
   for (const [provider, url] of Object.entries(urls)) {
     const app = setup();
@@ -83,7 +85,7 @@ test("openrouter, zai y siliconflow usan Bearer y sus URL", async () => {
 
 test("rechaza sin clave y no llama a fetch", async () => {
   const app = setup();
-  for (const provider of ["anthropic", "openrouter", "zai", "siliconflow"]) {
+  for (const provider of ["anthropic", "openrouter", "zai", "siliconflow", "groq", "gemini"]) {
     for (const key of ["", "   "]) {
       await assert.rejects(app.call(provider, key), /Introduce tu clave API de/);
     }
@@ -102,7 +104,7 @@ test("un TypeError de fetch se convierte en mensaje de bloqueo", async () => {
 });
 
 test("oculta la clave si el proveedor la devuelve en el error", async () => {
-  for (const provider of ["anthropic", "openrouter", "zai", "siliconflow"]) {
+  for (const provider of ["anthropic", "openrouter", "zai", "siliconflow", "groq", "gemini"]) {
     for (const body of [{ error: { message: `bad key ${secret} ${secret}` } }, { message: `bad key ${secret}` }]) {
       const app = setup(() => Response.json(body, { status: 401 }));
       await assert.rejects(app.call(provider), (error) => {
@@ -131,7 +133,7 @@ test("la cancelación conserva AbortError sin revelar la clave", async () => {
 });
 
 test("una respuesta vacía usa el texto de reserva de la ruta local", async () => {
-  for (const provider of ["anthropic", "openrouter", "zai", "siliconflow"]) {
+  for (const provider of ["anthropic", "openrouter", "zai", "siliconflow", "groq", "gemini"]) {
     const app = setup(() => Response.json({}));
     assert.equal(await app.call(provider), "[sin respuesta]");
   }

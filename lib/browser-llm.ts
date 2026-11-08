@@ -26,6 +26,8 @@ export async function callProviderDirect(
     openrouter: "https://openrouter.ai/api/v1/chat/completions",
     zai: "https://api.z.ai/api/paas/v4/chat/completions",
     siliconflow: "https://api.siliconflow.com/v1/chat/completions",
+    groq: "https://api.groq.com/openai/v1/chat/completions",
+    gemini: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
   };
   let response: Response;
   try {
