@@ -1,51 +1,117 @@
+<p align="center">
+  <img src="assets/banner.png" alt="AI2IA: Dos IAs, una pregunta. Tú eres el tercero." width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/D4vRAM369/AI2IA/actions/workflows/pages.yml"><img alt="Despliegue" src="https://github.com/D4vRAM369/AI2IA/actions/workflows/pages.yml/badge.svg"></a>
+  <img alt="Next.js 15" src="https://img.shields.io/badge/Next.js-15-111111?logo=nextdotjs&logoColor=white">
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-1f3dff?logo=react&logoColor=white">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.8-1f3dff?logo=typescript&logoColor=white">
+  <img alt="Pruebas" src="https://img.shields.io/badge/pruebas-75%20OK-2ea44f">
+  <img alt="BYOK" src="https://img.shields.io/badge/clave-BYOK%20(tuya)-ff5b1f">
+  <img alt="Sin cookies" src="https://img.shields.io/badge/anal%C3%ADtica-sin%20cookies-111111">
+</p>
+
 # AI2IA
 
-Diálogos entre dos modelos de IA con Next.js. Elige un tema y los modelos, inicia la conversación e intervén como observador.
+Dos modelos de IA dialogan sobre un tema. Tú miras, y cuando quieras **intervienes como observador**: tu comentario interrumpe la respuesta en curso y los dos modelos lo reciben.
 
-## Interacción en tiempo real
+**Web:** <https://d4vram369.github.io/AI2IA/> · **Sin cuenta, sin servidor, con tu propia clave API.**
 
-Tu comentario aparece al enviarlo e interrumpe la respuesta en curso. Se vuelve a consultar al mismo modelo con la instrucción nueva; el otro modelo también la recibe. Puedes enviar varios comentarios. En pausa se conservan hasta reanudar.
+<p align="center">
+  <img src="assets/lector.png" alt="Lector de un diálogo de ejemplo con un comentario del observador en naranja" width="85%">
+</p>
 
-Detener cancela también la primera respuesta. Las respuestas de diálogos anteriores no modifican una sesión nueva. Cada petición tiene un límite de 60 segundos; si el proveedor no responde, aparece un error y puedes iniciar otro diálogo. La cancelación se propaga al proveedor, aunque éste podría cobrar el trabajo ya iniciado.
+> Los dos diálogos de ejemplo de la web son **maquetas** escritas a mano, no salidas de modelos reales. Están marcados como tales en la interfaz.
 
-El modo finito genera 29 intervenciones de IA (apertura + 14 pares). Los comentarios pendientes pueden prolongarlo hasta entregarse a ambos modelos. La exportación Markdown cuenta por separado respuestas y comentarios, e identifica los modelos seleccionados.
+## Qué hace
 
-La documentación de aprendizaje y el informe de cambios están en [docs/README.md](docs/README.md). Es documentación local excluida de nuevos añadidos mediante `.gitignore`; no se realizan commits ni se modifica el índice de Git.
+- **Leer** un diálogo ya hecho (`/ejemplos/…`).
+- **Probar** uno propio (`/app/`): eliges el modelo A y el B, un tema, y lanzas la conversación.
+- **Intervenir**: tu comentario aparece al enviarlo, cancela la respuesta en curso y se reintenta con la instrucción nueva. Puedes enviar varios; en pausa se conservan hasta reanudar.
+- **Exportar** el diálogo a Markdown, con los comentarios del observador contados aparte.
+- **Modo finito**: 29 intervenciones de IA (apertura + 14 pares); los comentarios pendientes pueden prolongarlo hasta entregarse a ambos modelos.
+- Cada petición tiene un límite de 60 s. Detener cancela también la primera respuesta, y las respuestas tardías de una sesión anterior no tocan la nueva.
 
-## Iniciar en local
+## Dos modos
+
+| | **Web pública** | **Local** |
+|---|---|---|
+| Dónde corre | GitHub Pages (sitio estático) | `npm run dev` |
+| Quién llama al proveedor | Tu navegador, directamente | El proxy `/api/chat` de la app |
+| Clave | La que escribes (solo en memoria) | La que escribes, o la de `.env.local` |
+| Proveedores | Anthropic, OpenRouter, Z.AI, SiliconFlow | Además Ollama |
+| Analítica | GoatCounter (sin cookies) | Ninguna |
+
+NVIDIA y Ollama no funcionan desde el navegador (bloqueo CORS o servicio local): quedan para la versión instalable, que está en el plan.
+
+## Privacidad
+
+- La clave vive **solo en la memoria** de la pestaña. No va a `localStorage`, cookies, logs, analítica ni exportaciones.
+- En la web pública no existe ninguna clave del servidor: no hay servidor.
+- La analítica ([GoatCounter](https://www.goatcounter.com/), sin cookies ni datos personales) cuenta cinco eventos: `VIEW`, `READ`, `START`, `OBS` y `EXPORT`. Solo envía un identificador tipo `curiosidad`; **nunca texto de diálogos**.
+- La v1 no guarda ni envía lo que escribes ni lo que responden los modelos.
+
+> ⚠️ Los proveedores cobran el trabajo ya iniciado aunque canceles. Usa claves con límite de gasto, o modelos gratuitos como `openrouter/free`.
+
+## Empezar en local
 
 ```bash
+git clone https://github.com/D4vRAM369/AI2IA.git
+cd AI2IA
 npm install
 npm run dev -- --hostname 127.0.0.1
 ```
 
-Abre <http://localhost:3000>.
+Abre <http://localhost:3000>. En local puedes escribir la clave en la interfaz o copiar `.env.example` a `.env.local` y rellenar la del proveedor; una clave escrita tiene prioridad y, si el proveedor la rechaza, no se reintenta con la del servidor.
 
-## Usar tu clave API (BYOK)
+Modelo gratuito para probar: crea una [clave de OpenRouter](https://openrouter.ai/settings/keys) y elige **OpenRouter gratuito (automático)** en A y B. Tiene [límites de uso](https://openrouter.ai/docs/api_reference/limits).
 
-1. Selecciona los modelos A y B.
-2. Introduce tu clave en el campo de cada proveedor seleccionado. Si ambos modelos usan el mismo proveedor, basta una clave.
-3. Inicia el dialogo.
-
-Las claves se mantienen en memoria mientras la pagina siga abierta; no se guardan en localStorage, cookies ni en el log exportado. Se envian al servidor de esta aplicacion, que las reenvia exclusivamente al proveedor seleccionado. Usa HTTPS si despliegas la aplicacion.
-
-Si dejas un campo vacio, se usa la variable de entorno del proveedor en `.env.local` (ver `.env.example`). Una clave introducida tiene prioridad; si es rechazada, no se reintenta con la clave del servidor. Ollama local no necesita clave.
-
-## Modelos gratuitos
-
-Puedes crear una [clave de OpenRouter](https://openrouter.ai/settings/keys) y seleccionar **OpenRouter gratuito (automatico)** en A y B. El modelo `openrouter/free` elige entre los modelos gratuitos disponibles. El acceso tiene [limites de uso](https://openrouter.ai/docs/api_reference/limits); crear una clave no hace gratuitos los modelos de pago.
-
-No se distribuyen claves compartidas. El catalogo de modelos individuales puede cambiar segun cada proveedor.
-
-## Comprobaciones
+## Comandos
 
 ```bash
-npm test
+npm test                # 75 pruebas, con proveedores simulados (sin gasto)
 npm run lint
-npm run build
-npm run typecheck
+npm run build           # build local (con /api/chat)
+npm run typecheck       # después de build: Next regenera .next/types
+npm run build:public    # sitio estático en out/ (sin /api)
+npm run verify:public   # build público + 9 comprobaciones sobre out/
 ```
 
-Las pruebas usan proveedores simulados y no consumen credito. Ejecuta build y typecheck en secuencia porque Next.js regenera `.next/types`.
+## Publicar tu propia copia en GitHub Pages
 
-La aplicacion no incorpora autenticacion ni cuotas de usuarios. Antes de publicarla con claves del servidor, restringe el acceso.
+1. Haz fork o sube el repo a GitHub.
+2. **Settings → Pages → Source: GitHub Actions.**
+3. **Settings → Secrets and variables → Actions → Variables:**
+   - `NEXT_PUBLIC_BASE_PATH` = `/nombre-del-repo`
+   - `NEXT_PUBLIC_GOATCOUNTER_URL` = tu URL de conteo (opcional; sin ella no se carga ningún script de analítica)
+   - `NEXT_PUBLIC_METRICS_URL` = enlace público a tus métricas (opcional; muestra «Métricas» en el menú)
+4. Haz push a `main`: el workflow `pages.yml` ejecuta pruebas, verifica la salida y despliega.
+
+## Estructura
+
+```
+app/                  rutas: portada, /app, /archivo, /ejemplos/[id], /api/chat (solo local)
+components/           AIDialogue (interfaz y lógica del diálogo), lector, navegación, analítica
+lib/                  modelos y prompts, llamada directa desde el navegador, modo público, analítica
+scripts/build-public.cjs   compila el sitio estático sin /api
+tests/                node:test con proveedores simulados
+.github/workflows/    despliegue a GitHub Pages
+```
+
+## Estado y hoja de ruta
+
+- [x] **v1 web**: leer, probar con tu clave, intervenir, exportar. Analítica sin cookies.
+- [ ] Diálogos de ejemplo reales (hoy son maquetas).
+- [ ] **Versión instalable** (Tauri): añade Ollama y NVIDIA, sin límites de CORS.
+- [ ] Proveedores adicionales (Groq, DeepSeek, Mistral).
+- [ ] **v2 · archivo público**: conversaciones y comentarios visibles solo con consentimiento por conversación; sin consentimiento, la parte del usuario aparece censurada. Requiere backend, moderación y cumplimiento RGPD.
+- [ ] Propuesta: publicar diálogos en Moltbook. Hoy no hay ninguna conexión.
+
+## Diseño
+
+Estilo cartel suizo: blanco, tinta, azul `#1f3dff`, naranja `#ff5b1f`, tipografías Archivo y Space Mono (autoalojadas en el build). A y B nunca se distinguen solo por color.
+
+## Licencia
+
+Pendiente de elegir.
