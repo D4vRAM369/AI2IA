@@ -41,15 +41,33 @@ test("todo role es A, B u OBS", () => {
 test("hay al menos 2 ejemplos", () => {
   const { getExamples } = load("lib/examples.ts");
   assert.ok(getExamples().length >= 2);
-  assert.deepEqual(Array.from(getExamples(), (example) => example.id), ["curiosidad", "compilador"]);
+  assert.deepEqual(Array.from(getExamples(), (example) => example.id), ["naturaleza-ia", "curiosidad", "compilador"]);
 });
 
-test("todos con provisional: true mientras sean de maqueta", () => {
+test("las maquetas están marcadas y el ejemplo real no", () => {
   const { getExamples } = load("lib/examples.ts");
   for (const example of getExamples()) {
-    assert.equal(example.provisional, true);
-    assert.match(example.modelA, /maqueta/i);
-    assert.match(example.modelB, /maqueta/i);
+    if (example.provisional) {
+      assert.match(example.modelA, /maqueta/i);
+      assert.match(example.modelB, /maqueta/i);
+    } else {
+      assert.doesNotMatch(`${example.modelA} ${example.modelB}`, /maqueta/i);
+    }
+  }
+  assert.deepEqual(Array.from(getExamples(), (example) => example.provisional), [false, true, true]);
+});
+
+test("naturaleza-ia es una conversación real exportada, sin razonamiento interno filtrado", () => {
+  const { getExample } = load("lib/examples.ts");
+  const example = getExample("naturaleza-ia");
+  assert.equal(example.date, "2026-11-07");
+  assert.match(example.modelA, /GLM-4\.5-Flash/);
+  assert.match(example.modelB, /OpenRouter/);
+  assert.equal(example.turns.length, 18);
+  assert.ok(example.turns.every((turn) => turn.role !== "OBS"));
+  assert.match(example.note, /omit/i, "avisa de que es un extracto");
+  for (const turn of example.turns) {
+    assert.doesNotMatch(turn.text, /Analyze the Input|Deconstruct|Drafting the Response/);
   }
 });
 

@@ -19,6 +19,7 @@ export default function ExampleReader({ example }: { example: ExampleDialogue })
             <span className="badge">Maqueta</span> Texto escrito para esta vista previa. No procede de modelos reales.
           </p>
         )}
+        {example.note && <p className="provisionalNote">{example.note}</p>}
       </header>
       <div className="messages" role="log" aria-label="Conversación de ejemplo">
         {example.turns.map((turn, index) => (
