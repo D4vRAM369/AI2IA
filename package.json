@@ -2,7 +2,7 @@
   "name": "ai2ia",
   "version": "0.1.0",
   "private": true,
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

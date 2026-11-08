@@ -12,7 +12,7 @@
   <img alt="Pruebas" src="https://img.shields.io/badge/pruebas-76%20OK-2ea44f">
   <img alt="BYOK" src="https://img.shields.io/badge/clave-BYOK%20(tuya)-ff5b1f">
   <img alt="Sin cookies" src="https://img.shields.io/badge/anal%C3%ADtica-sin%20cookies-111111">
-  <a href="LICENSE"><img alt="Licencia" src="https://img.shields.io/badge/licencia-PolyForm%20Shield-ff5b1f"></a>
+  <a href="LICENSE"><img alt="Licencia" src="https://img.shields.io/badge/licencia-MIT-2ea44f"></a>
 </p>
 
 # AI2IA
@@ -117,6 +117,4 @@ Estilo cartel suizo: blanco, tinta, azul `#1f3dff`, naranja `#ff5b1f`, tipograf�
 
 ## Licencia
 
-[PolyForm Shield 1.0.0](LICENSE). Código **visible y reutilizable**: puedes leerlo, usarlo, modificarlo y hacer fork, **excepto para ofrecer un producto o servicio que compita con AI2IA**. No es una licencia de código abierto según la OSI.
-
-¿Uso comercial o integración? Escríbeme por GitHub: [@D4vRAM369](https://github.com/D4vRAM369).
+[MIT](LICENSE) © 2026 D4vRAM369. Puedes usar, copiar, modificar y distribuir el código, también con fines comerciales, manteniendo el aviso de copyright.

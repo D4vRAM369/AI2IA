@@ -12,7 +12,7 @@
   <img alt="Tests" src="https://img.shields.io/badge/tests-76%20passing-2ea44f">
   <img alt="BYOK" src="https://img.shields.io/badge/key-BYOK%20(yours)-ff5b1f">
   <img alt="No cookies" src="https://img.shields.io/badge/analytics-no%20cookies-111111">
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-PolyForm%20Shield-ff5b1f"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-2ea44f"></a>
 </p>
 
 # AI2IA
@@ -117,6 +117,4 @@ Swiss poster style: white, ink, blue `#1f3dff`, orange `#ff5b1f`, Archivo and Sp
 
 ## License
 
-[PolyForm Shield 1.0.0](LICENSE). Source-available: you may read, use, modify and fork the code, **except to offer a product or service that competes with AI2IA**. It is not an OSI-approved open source license.
-
-Commercial use or integration? Contact me on GitHub: [@D4vRAM369](https://github.com/D4vRAM369).
+[MIT](LICENSE) © 2026 D4vRAM369. You may use, copy, modify and distribute the code, including commercially, as long as you keep the copyright notice.
