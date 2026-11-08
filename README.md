@@ -54,6 +54,7 @@ NVIDIA y Ollama no funcionan desde el navegador (bloqueo CORS o servicio local):
 - En la web pública no existe ninguna clave del servidor: no hay servidor.
 - La analítica ([GoatCounter](https://www.goatcounter.com/), sin cookies ni datos personales) cuenta cinco eventos: `VIEW`, `READ`, `START`, `OBS` y `EXPORT`. Solo envía un identificador tipo `curiosidad`; **nunca texto de diálogos**.
 - La v1 no guarda ni envía lo que escribes ni lo que responden los modelos.
+- Al abrir `/app/`, tu navegador pide a OpenRouter su **catálogo público** de modelos gratuitos (`GET`, sin clave ni datos tuyos; OpenRouter verá tu IP, como en cualquier petición). Si falla, se usa la lista fija.
 
 > ⚠️ Los proveedores cobran el trabajo ya iniciado aunque canceles. Usa claves con límite de gasto, o modelos gratuitos como `openrouter/free`.
 

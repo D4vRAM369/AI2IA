@@ -54,6 +54,7 @@ NVIDIA and Ollama don't work from a browser (CORS block or local service): they 
 - The public web has no server-side key at all: there is no server.
 - Analytics ([GoatCounter](https://www.goatcounter.com/), no cookies, no personal data) counts five events: `VIEW`, `READ`, `START`, `OBS` and `EXPORT`. It only sends an identifier such as `curiosidad`; **never dialogue text**.
 - v1 neither stores nor sends what you write or what the models answer.
+- When you open `/app/`, your browser asks OpenRouter for its **public catalogue** of free models (a `GET` with no key and none of your data; OpenRouter will see your IP, as with any request). If it fails, a built-in list is used.
 
 > ⚠️ Providers bill for work already started even if you cancel. Use keys with a spending limit, or free models such as `openrouter/free`.
 
