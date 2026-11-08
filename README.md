@@ -9,7 +9,7 @@
   <img alt="Next.js 15" src="https://img.shields.io/badge/Next.js-15-111111?logo=nextdotjs&logoColor=white">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-1f3dff?logo=react&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.8-1f3dff?logo=typescript&logoColor=white">
-  <img alt="Pruebas" src="https://img.shields.io/badge/pruebas-76%20OK-2ea44f">
+  <img alt="Pruebas" src="https://img.shields.io/badge/pruebas-83%20OK-2ea44f">
   <img alt="BYOK" src="https://img.shields.io/badge/clave-BYOK%20(tuya)-ff5b1f">
   <img alt="Sin cookies" src="https://img.shields.io/badge/anal%C3%ADtica-sin%20cookies-111111">
   <a href="LICENSE"><img alt="Licencia" src="https://img.shields.io/badge/licencia-MIT-2ea44f"></a>
@@ -74,7 +74,7 @@ Modelo gratuito para probar: crea una [clave de OpenRouter](https://openrouter.a
 ## Comandos
 
 ```bash
-npm test                # 76 pruebas, con proveedores simulados (sin gasto)
+npm test                # 83 pruebas, con proveedores simulados (sin gasto)
 npm run lint
 npm run build           # build local (con /api/chat)
 npm run typecheck       # después de build: Next regenera .next/types
