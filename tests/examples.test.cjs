@@ -41,7 +41,7 @@ test("todo role es A, B u OBS", () => {
 test("hay al menos 2 ejemplos", () => {
   const { getExamples } = load("lib/examples.ts");
   assert.ok(getExamples().length >= 2);
-  assert.deepEqual(Array.from(getExamples(), (example) => example.id), ["naturaleza-ia", "curiosidad", "compilador"]);
+  assert.deepEqual(Array.from(getExamples(), (example) => example.id), ["naturaleza-ia", "viajes-universos", "curiosidad", "compilador"]);
 });
 
 test("las maquetas están marcadas y el ejemplo real no", () => {
@@ -54,7 +54,7 @@ test("las maquetas están marcadas y el ejemplo real no", () => {
       assert.doesNotMatch(`${example.modelA} ${example.modelB}`, /maqueta/i);
     }
   }
-  assert.deepEqual(Array.from(getExamples(), (example) => example.provisional), [false, true, true]);
+  assert.deepEqual(Array.from(getExamples(), (example) => example.provisional), [false, false, true, true]);
 });
 
 test("naturaleza-ia es una conversación real exportada, sin razonamiento interno filtrado", () => {
@@ -68,6 +68,23 @@ test("naturaleza-ia es una conversación real exportada, sin razonamiento intern
   assert.match(example.note, /omit/i, "avisa de que es un extracto");
   for (const turn of example.turns) {
     assert.doesNotMatch(turn.text, /Analyze the Input|Deconstruct|Drafting the Response/);
+  }
+});
+
+test("viajes-universos es real, de dos modelos gratuitos y conserva el comentario del observador", () => {
+  const { getExample } = load("lib/examples.ts");
+  const example = getExample("viajes-universos");
+  assert.equal(example.date, "2026-11-08");
+  assert.match(example.modelA, /GLM-4\.5-Flash/);
+  assert.match(example.modelB, /Gemini 3\.1 Flash-Lite/);
+  assert.equal(example.turns.length, 30);
+  const obs = example.turns.filter((turn) => turn.role === "OBS");
+  assert.equal(obs.length, 1);
+  assert.equal(obs[0].text, "¿Creen que el viaje en el tiempo es posible?");
+  assert.equal(example.turns.filter((turn) => turn.role !== "OBS").length, 29);
+  for (const turn of example.turns) {
+    assert.ok(turn.text.trim());
+    assert.doesNotMatch(turn.text, /Analyze the Input|Deconstruct|Drafting the Response|\[sin respuesta\]/);
   }
 });
 
