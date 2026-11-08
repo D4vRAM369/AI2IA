@@ -49,3 +49,6 @@ Thumbs.db
 
 # Prototipo anterior, sin uso en la app actual
 claude-dialogue-v2-BUILD.jsx
+
+# Instrucciones locales de Claude Code (no públicas)
+CLAUDE.md
