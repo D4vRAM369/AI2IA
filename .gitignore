@@ -1,15 +1,51 @@
-.next
-node_modules
-.env.local
+# Dependencias y builds
+node_modules/
+.next/
+out/
+.api-off/
+dist/
+*.tsbuildinfo
+next-env.d.ts.bak
+
+# Secretos y entorno (solo se versiona .env.example)
+.env
+.env.*
+!.env.example
+
+# Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-dist
 
-# Documentación local de aprendizaje (solicitado por el usuario)
+# Documentación interna de aprendizaje y transcripciones (solicitado por Brian)
 docs/
+transcript_*
 
-# Prototipos locales del visual companion
+# Prototipos del visual companion (mockups locales)
 .superpowers/
+
+# Estado de herramientas de IA y credenciales locales
+.omc/
+.omx/
+.agents/
+.codex
+.aws/
+.claude/
+
+# Copias temporales de trabajo con Codex
+C2C-codex-*/
+
+# Instalable Tauri (futuro)
+src-tauri/target/
+src-tauri/gen/
+
+# Editores y sistema
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Prototipo anterior, sin uso en la app actual
+claude-dialogue-v2-BUILD.jsx
