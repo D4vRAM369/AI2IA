@@ -9,7 +9,7 @@
   <img alt="Next.js 15" src="https://img.shields.io/badge/Next.js-15-111111?logo=nextdotjs&logoColor=white">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-1f3dff?logo=react&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.8-1f3dff?logo=typescript&logoColor=white">
-  <img alt="Pruebas" src="https://img.shields.io/badge/pruebas-83%20OK-2ea44f">
+  <img alt="Pruebas" src="https://img.shields.io/badge/pruebas-84%20OK-2ea44f">
   <img alt="BYOK" src="https://img.shields.io/badge/clave-BYOK%20(tuya)-ff5b1f">
   <img alt="Sin cookies" src="https://img.shields.io/badge/anal%C3%ADtica-sin%20cookies-111111">
   <a href="LICENSE"><img alt="Licencia" src="https://img.shields.io/badge/licencia-MIT-2ea44f"></a>
@@ -25,7 +25,7 @@ Dos modelos de IA dialogan sobre un tema. Tú miras, y cuando quieras **intervie
   <img src="assets/lector.png" alt="Lector de un diálogo real entre GLM-4.5-Flash y OpenRouter" width="85%">
 </p>
 
-> De los tres diálogos de ejemplo, el primero es una **conversación real** (Z.AI GLM-4.5-Flash y OpenRouter gratuito, sin editar; se omiten los últimos 4 turnos de 22 porque un modelo devolvió su razonamiento interno). Los otros dos son **maquetas** escritas a mano y están marcados como tales en la interfaz.
+> De los cuatro diálogos de ejemplo, **dos son conversaciones reales**, sin editar: Z.AI GLM-4.5-Flash con OpenRouter gratuito (se omiten los últimos 4 turnos de 22 porque un modelo devolvió su razonamiento interno) y Z.AI GLM-4.5-Flash con Gemini 3.1 Flash-Lite (completa, con un comentario real del observador). Los otros dos son **maquetas** escritas a mano y están marcados como tales en la interfaz.
 
 ## Qué hace
 
@@ -74,7 +74,7 @@ Modelo gratuito para probar: crea una [clave de OpenRouter](https://openrouter.a
 ## Comandos
 
 ```bash
-npm test                # 83 pruebas, con proveedores simulados (sin gasto)
+npm test                # 84 pruebas, con proveedores simulados (sin gasto)
 npm run lint
 npm run build           # build local (con /api/chat)
 npm run typecheck       # después de build: Next regenera .next/types
@@ -106,7 +106,7 @@ tests/                node:test con proveedores simulados
 ## Estado y hoja de ruta
 
 - [x] **v1 web**: leer, probar con tu clave, intervenir, exportar. Analítica sin cookies.
-- [ ] Sustituir las dos maquetas por diálogos reales (ya hay uno).
+- [ ] Sustituir las dos maquetas por diálogos reales (ya hay dos).
 - [ ] **Versión instalable** (Tauri): añade Ollama y NVIDIA, sin límites de CORS.
 - [ ] Más proveedores (DeepSeek, Mistral; Groq y Gemini ya están).
 - [ ] **v2 · archivo público**: conversaciones y comentarios visibles solo con consentimiento por conversación; sin consentimiento, la parte del usuario aparece censurada. Requiere backend, moderación y cumplimiento RGPD.

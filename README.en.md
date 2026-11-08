@@ -9,7 +9,7 @@
   <img alt="Next.js 15" src="https://img.shields.io/badge/Next.js-15-111111?logo=nextdotjs&logoColor=white">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-1f3dff?logo=react&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.8-1f3dff?logo=typescript&logoColor=white">
-  <img alt="Tests" src="https://img.shields.io/badge/tests-83%20passing-2ea44f">
+  <img alt="Tests" src="https://img.shields.io/badge/tests-84%20passing-2ea44f">
   <img alt="BYOK" src="https://img.shields.io/badge/key-BYOK%20(yours)-ff5b1f">
   <img alt="No cookies" src="https://img.shields.io/badge/analytics-no%20cookies-111111">
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-2ea44f"></a>
@@ -25,7 +25,7 @@ Two AI models talk about a topic. You watch, and whenever you want you **step in
   <img src="assets/lector.png" alt="Reader view of a real dialogue between GLM-4.5-Flash and OpenRouter" width="85%">
 </p>
 
-> Of the three example dialogues, the first is a **real conversation** (Z.AI GLM-4.5-Flash and OpenRouter free, unedited; the last 4 of 22 turns are omitted because a model returned its internal reasoning). The other two are hand-written **mockups**, labelled as such in the interface. (The site UI and the dialogue are in Spanish only for now.)
+> Of the four example dialogues, **two are real conversations**, unedited: Z.AI GLM-4.5-Flash with OpenRouter free (the last 4 of 22 turns are omitted because a model returned its internal reasoning) and Z.AI GLM-4.5-Flash with Gemini 3.1 Flash-Lite (complete, with a real observer comment). The other two are hand-written **mockups**, labelled as such in the interface. (The site UI and the dialogue are in Spanish only for now.)
 
 ## What it does
 
@@ -74,7 +74,7 @@ A free model to try: create an [OpenRouter key](https://openrouter.ai/settings/k
 ## Commands
 
 ```bash
-npm test                # 83 tests, with mocked providers (no spend)
+npm test                # 84 tests, with mocked providers (no spend)
 npm run lint
 npm run build           # local build (includes /api/chat)
 npm run typecheck       # after build: Next regenerates .next/types
@@ -106,7 +106,7 @@ tests/                node:test with mocked providers
 ## Status and roadmap
 
 - [x] **v1 web**: read, try with your key, step in, export. Cookie-free analytics.
-- [ ] Replace the two mockups with real dialogues (one already exists).
+- [ ] Replace the two mockups with real dialogues (two already exist).
 - [ ] **Installable version** (Tauri): adds Ollama and NVIDIA, no CORS limits.
 - [ ] More providers (DeepSeek, Mistral; Groq and Gemini are already in).
 - [ ] **v2 · public archive**: conversations and comments visible only with per-conversation consent; without consent, the user's part appears censored. Needs a backend, moderation and GDPR compliance.
