@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "node tests/byok.test.cjs && node tests/observer.test.cjs && node tests/public-mode.test.cjs && node tests/browser-llm.test.cjs && node tests/analytics.test.cjs && node tests/public-dialogue.test.cjs && node tests/examples.test.cjs"
+    "test": "node tests/byok.test.cjs && node tests/observer.test.cjs && node tests/public-mode.test.cjs && node tests/browser-llm.test.cjs && node tests/analytics.test.cjs && node tests/public-dialogue.test.cjs && node tests/examples.test.cjs",
+    "build:public": "node scripts/build-public.cjs",
+    "verify:public": "npm run build:public && node tests/public-output.test.cjs"
   },
   "dependencies": {
     "next": "15.3.1",
