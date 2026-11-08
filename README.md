@@ -9,7 +9,7 @@
   <img alt="Next.js 15" src="https://img.shields.io/badge/Next.js-15-111111?logo=nextdotjs&logoColor=white">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-1f3dff?logo=react&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.8-1f3dff?logo=typescript&logoColor=white">
-  <img alt="Pruebas" src="https://img.shields.io/badge/pruebas-75%20OK-2ea44f">
+  <img alt="Pruebas" src="https://img.shields.io/badge/pruebas-76%20OK-2ea44f">
   <img alt="BYOK" src="https://img.shields.io/badge/clave-BYOK%20(tuya)-ff5b1f">
   <img alt="Sin cookies" src="https://img.shields.io/badge/anal%C3%ADtica-sin%20cookies-111111">
 </p>
@@ -72,7 +72,7 @@ Modelo gratuito para probar: crea una [clave de OpenRouter](https://openrouter.a
 ## Comandos
 
 ```bash
-npm test                # 75 pruebas, con proveedores simulados (sin gasto)
+npm test                # 76 pruebas, con proveedores simulados (sin gasto)
 npm run lint
 npm run build           # build local (con /api/chat)
 npm run typecheck       # después de build: Next regenera .next/types
@@ -85,7 +85,7 @@ npm run verify:public   # build público + 9 comprobaciones sobre out/
 1. Haz fork o sube el repo a GitHub.
 2. **Settings → Pages → Source: GitHub Actions.**
 3. **Settings → Secrets and variables → Actions → Variables:**
-   - `NEXT_PUBLIC_BASE_PATH` = `/nombre-del-repo`
+   - `NEXT_PUBLIC_BASE_PATH` = `/nombre-del-repo` (opcional: por defecto el workflow usa el nombre del repo)
    - `NEXT_PUBLIC_GOATCOUNTER_URL` = tu URL de conteo (opcional; sin ella no se carga ningún script de analítica)
    - `NEXT_PUBLIC_METRICS_URL` = enlace público a tus métricas (opcional; muestra «Métricas» en el menú)
 4. Haz push a `main`: el workflow `pages.yml` ejecuta pruebas, verifica la salida y despliega.

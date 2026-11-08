@@ -18,7 +18,7 @@ jobs:
       contents: read
       pages: read
     env:
-      NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH }}
+      NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH || format('/{0}', github.event.repository.name) }}
       NEXT_PUBLIC_GOATCOUNTER_URL: ${{ vars.NEXT_PUBLIC_GOATCOUNTER_URL }}
     steps:
       - uses: actions/checkout@v4

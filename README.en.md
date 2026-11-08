@@ -9,7 +9,7 @@
   <img alt="Next.js 15" src="https://img.shields.io/badge/Next.js-15-111111?logo=nextdotjs&logoColor=white">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-1f3dff?logo=react&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.8-1f3dff?logo=typescript&logoColor=white">
-  <img alt="Tests" src="https://img.shields.io/badge/tests-75%20passing-2ea44f">
+  <img alt="Tests" src="https://img.shields.io/badge/tests-76%20passing-2ea44f">
   <img alt="BYOK" src="https://img.shields.io/badge/key-BYOK%20(yours)-ff5b1f">
   <img alt="No cookies" src="https://img.shields.io/badge/analytics-no%20cookies-111111">
 </p>
@@ -72,7 +72,7 @@ A free model to try: create an [OpenRouter key](https://openrouter.ai/settings/k
 ## Commands
 
 ```bash
-npm test                # 75 tests, with mocked providers (no spend)
+npm test                # 76 tests, with mocked providers (no spend)
 npm run lint
 npm run build           # local build (includes /api/chat)
 npm run typecheck       # after build: Next regenerates .next/types
@@ -85,7 +85,7 @@ npm run verify:public   # public build + 9 checks on out/
 1. Fork the repo or push it to GitHub.
 2. **Settings → Pages → Source: GitHub Actions.**
 3. **Settings → Secrets and variables → Actions → Variables:**
-   - `NEXT_PUBLIC_BASE_PATH` = `/your-repo-name`
+   - `NEXT_PUBLIC_BASE_PATH` = `/your-repo-name` (optional: the workflow defaults to the repo name)
    - `NEXT_PUBLIC_GOATCOUNTER_URL` = your counting URL (optional; without it no analytics script is loaded)
    - `NEXT_PUBLIC_METRICS_URL` = public link to your metrics (optional; shows "Métricas" in the menu)
 4. Push to `main`: the `pages.yml` workflow runs the tests, verifies the output and deploys.
