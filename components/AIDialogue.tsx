@@ -6,8 +6,9 @@ import { track } from "@/lib/analytics";
 import { IS_PUBLIC } from "@/lib/app-mode";
 import { callProviderDirect } from "@/lib/browser-llm";
 import { buildSystemA, buildSystemB, SUGGESTED_TOPICS } from "@/lib/dialogue-config";
-import { getModelByKey, MODEL_REGISTRY, type ModelProvider } from "@/lib/model-registry";
+import { getModelByKey, MODEL_REGISTRY, type ModelOption, type ModelProvider } from "@/lib/model-registry";
 import { modelsForMode } from "@/lib/provider-support";
+import { loadFreeModels } from "@/lib/openrouter-catalog";
 
 // En local es el registro completo; en la web pública, solo proveedores con CORS y sin Ollama.
 const AVAILABLE_MODELS = modelsForMode(MODEL_REGISTRY, IS_PUBLIC);
@@ -40,10 +41,11 @@ async function callModel(
   messages: LLMMessage[],
   apiKey?: string,
   signal?: AbortSignal,
+  resolved?: ModelOption,
 ): Promise<string> {
   if (IS_PUBLIC) {
     // Web estática: no hay servidor. El navegador llama al proveedor con la clave de la persona.
-    const model = getModelByKey(modelKey);
+    const model = resolved ?? getModelByKey(modelKey);
     if (!model) throw new Error("Modelo no soportado.");
     return callProviderDirect(model, systemPrompt, messages, 1000, apiKey ?? "", signal ?? new AbortController().signal);
   }
@@ -71,6 +73,7 @@ export default function AIDialogue() {
   const [topic, setTopic] = useState<string>("");
   const [customTopic, setCustomTopic] = useState<string>("");
   const [mode, setMode] = useState<"finite" | "infinite">("finite");
+  const [models, setModels] = useState<ModelOption[]>(AVAILABLE_MODELS);
   const [selectedModelA, setSelectedModelA] = useState<string>(AVAILABLE_MODELS[0].key);
   const [selectedModelB, setSelectedModelB] = useState<string>(AVAILABLE_MODELS[1]?.key ?? AVAILABLE_MODELS[0].key);
   const [messages, setMessages] = useState<UIMessage[]>([]);
@@ -97,6 +100,20 @@ export default function AIDialogue() {
     });
   }, [messages]);
 
+  // Solo web pública: refresca los modelos gratuitos de OpenRouter desde su catálogo público.
+  useEffect(() => {
+    if (!IS_PUBLIC) return;
+    const controller = new AbortController();
+    void loadFreeModels(AVAILABLE_MODELS, controller.signal).then((list) => {
+      if (controller.signal.aborted || list === AVAILABLE_MODELS) return;
+      setModels(list);
+      const keys = new Set(list.map((model) => model.key));
+      setSelectedModelA((current) => (keys.has(current) ? current : list[0].key));
+      setSelectedModelB((current) => (keys.has(current) ? current : (list[1] ?? list[0]).key));
+    });
+    return () => controller.abort();
+  }, []);
+
   useEffect(() => () => {
     sessionRef.current += 1;
     runningRef.current = false;
@@ -105,12 +122,12 @@ export default function AIDialogue() {
   }, []);
 
   const selectedModelAMeta = useMemo(
-    () => MODEL_REGISTRY.find((modelItem) => modelItem.key === selectedModelA),
-    [selectedModelA],
+    () => models.find((modelItem) => modelItem.key === selectedModelA),
+    [models, selectedModelA],
   );
   const selectedModelBMeta = useMemo(
-    () => MODEL_REGISTRY.find((modelItem) => modelItem.key === selectedModelB),
-    [selectedModelB],
+    () => models.find((modelItem) => modelItem.key === selectedModelB),
+    [models, selectedModelB],
   );
 
   const finalTopicDisplay = customTopic.trim() || topic || SUGGESTED_TOPICS[0];
@@ -167,10 +184,11 @@ export default function AIDialogue() {
       const controller = new AbortController();
       abortRef.current = controller;
       const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(60_000)]);
-      const provider = getModelByKey(modelKey)?.provider;
+      const meta = models.find((modelItem) => modelItem.key === modelKey) ?? getModelByKey(modelKey);
+      const provider = meta?.provider;
       try {
         const text = await callModel(modelKey, systemPrompt, sourceHistory.current,
-          provider ? apiKeys[provider] : undefined, signal);
+          provider ? apiKeys[provider] : undefined, signal, meta);
         // A cancelled or superseded request must never publish a late response.
         if (!runningRef.current || sessionRef.current !== session) return;
         if (controller.signal.aborted) continue;
@@ -421,7 +439,7 @@ Generado por AI2IA
 
           <SectionLabel>modelo ia1 (a)</SectionLabel>
           <div className="modelGrid">
-            {AVAILABLE_MODELS.map((modelItem) => {
+            {models.map((modelItem) => {
               const isActive = selectedModelA === modelItem.key;
               return (
                 <button
@@ -441,7 +459,7 @@ Generado por AI2IA
 
           <SectionLabel>modelo ia2 (b)</SectionLabel>
           <div className="modelGrid">
-            {AVAILABLE_MODELS.map((modelItem) => {
+            {models.map((modelItem) => {
               const isActive = selectedModelB === modelItem.key;
               return (
                 <button
