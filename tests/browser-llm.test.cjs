@@ -132,11 +132,29 @@ test("la cancelación conserva AbortError sin revelar la clave", async () => {
   });
 });
 
-test("una respuesta vacía usa el texto de reserva de la ruta local", async () => {
+test("una respuesta sin texto es un error, no un turno", async () => {
+  const bodies = [{}, { choices: [{ message: { content: "" } }] }, { choices: [{ message: { content: "  \n" } }] },
+    { choices: [{ message: { content: null, reasoning: "pensando..." } }] }, { choices: [{ message: { content: { a: 1 } } }] },
+    { content: [{ type: "text", text: "" }] }, { content: [] }];
   for (const provider of ["anthropic", "openrouter", "zai", "siliconflow", "groq", "gemini"]) {
-    const app = setup(() => Response.json({}));
-    assert.equal(await app.call(provider), "[sin respuesta]");
+    for (const body of bodies) {
+      const app = setup(() => Response.json(body));
+      await assert.rejects(app.call(provider), /no devolvió texto/);
+    }
   }
+});
+
+test("una respuesta sin texto se reintenta una vez y se recupera si la segunda sí trae texto", async () => {
+  let n = 0;
+  const app = setup(() => Response.json({ choices: [{ message: { content: n++ === 0 ? "" : "ahora sí" } }] }));
+  assert.equal(await app.call("openrouter"), "ahora sí");
+  assert.equal(app.calls.length, 2);
+  const vacio = setup(() => Response.json({ choices: [{ message: { content: null } }] }));
+  await assert.rejects(vacio.call("openrouter"), /no devolvió texto/);
+  assert.equal(vacio.calls.length, 2);
+  const roto = setup(() => Response.json({ error: { message: "x" } }, { status: 500 }));
+  await assert.rejects(roto.call("openrouter"), /Error del proveedor/);
+  assert.equal(roto.calls.length, 1);
 });
 
 test("una respuesta no JSON muestra un error en español sin revelar la clave", async () => {
@@ -150,7 +168,7 @@ test("una respuesta no JSON muestra un error en español sin revelar la clave", 
 
 test("un contenido que no es texto no se devuelve como respuesta", async () => {
   const llm = setup(() => Response.json({ choices: [{ message: { content: { x: 1 } } }] }));
-  assert.equal(await llm.call("openrouter"), "[sin respuesta]");
+  await assert.rejects(llm.call("openrouter"), /no devolvió texto/);
 });
 
 test("cancelar mientras se lee el cuerpo conserva AbortError", async () => {

@@ -47,7 +47,7 @@ async function callModel(
     // Web estática: no hay servidor. El navegador llama al proveedor con la clave de la persona.
     const model = resolved ?? getModelByKey(modelKey);
     if (!model) throw new Error("Modelo no soportado.");
-    return callProviderDirect(model, systemPrompt, messages, 1000, apiKey ?? "", signal ?? new AbortController().signal);
+    return callProviderDirect(model, systemPrompt, messages, 2000, apiKey ?? "", signal ?? new AbortController().signal);
   }
 
   const response = await fetch("/api/chat", {

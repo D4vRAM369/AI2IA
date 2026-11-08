@@ -1,7 +1,19 @@
 import type { ModelOption, DialogueMessage } from "@/lib/model-registry";
 
 // ponytail: duplica route.ts; extraer un módulo común cuando se retire el modo local
+// Una respuesta sin texto se reintenta una vez: con openrouter/free el segundo intento suele caer en otro modelo.
 export async function callProviderDirect(
+  ...args: Parameters<typeof callOnce>
+): Promise<string> {
+  try {
+    return await callOnce(...args);
+  } catch (error) {
+    if (!(error instanceof Error) || error.name !== "EmptyReply") throw error;
+    return callOnce(...args);
+  }
+}
+
+async function callOnce(
   model: ModelOption,
   systemPrompt: string,
   messages: DialogueMessage[],
@@ -90,6 +102,12 @@ export async function callProviderDirect(
   const text = anthropic
     ? data?.content?.find((piece) => piece.type === "text")?.text
     : data?.choices?.[0]?.message?.content;
-  // Un proveedor puede devolver algo que no es texto (p. ej. un objeto): React no podría pintarlo.
-  return typeof text === "string" ? text : "[sin respuesta]";
+  // Sin texto (content vacío o ausente, típico de un modelo que gasta los tokens razonando): es un
+  // error visible, no un turno. Así no se pinta una burbuja vacía ni entra "[sin respuesta]" en el historial.
+  if (typeof text !== "string" || !text.trim()) {
+    const empty = new Error("El modelo no devolvió texto (suele pasar si gasta los tokens razonando). Reintenta o elige otro modelo.");
+    empty.name = "EmptyReply";
+    throw empty;
+  }
+  return text;
 }
